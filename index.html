@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Cup 2026 Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-badge">FIFA</div>
+        <div class="header-text">
+          <h1>World Cup 2026</h1>
+          <p>Live standings &amp; match results</p>
+        </div>
+        <div class="header-host">
+          <span>🇺🇸</span><span>🇨🇦</span><span>🇲🇽</span>
+          <small>USA · CAN · MEX</small>
+        </div>
+      </div>
+    </header>
+
+    <nav class="tab-nav" role="tablist" aria-label="Dashboard sections">
+      <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-standings" id="tab-standings" data-tab="standings">
+        <span class="tab-icon">⊞</span>
+        Group Standings
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-matches" id="tab-matches" data-tab="matches">
+        <span class="tab-icon">▶</span>
+        Match Results
+      </button>
+    </nav>
+
+    <main class="main-content">
+
+      <div id="panel-standings" class="tab-panel active" role="tabpanel" aria-labelledby="tab-standings">
+        <div id="standings-tables" class="loading">
+          <div class="skeleton-pulse">Loading standings…</div>
+        </div>
+      </div>
+
+      <div id="panel-matches" class="tab-panel" role="tabpanel" aria-labelledby="tab-matches" hidden>
+        <div class="matches-filter" id="matches-filter" style="display:none;">
+          <label for="group-filter">Filter by group</label>
+          <select id="group-filter">
+            <option value="all">All matches</option>
+          </select>
+        </div>
+        <div id="matches-list" class="loading">
+          <div class="skeleton-pulse">Loading matches…</div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Data sourced from <a href="https://github.com/openfootball/worldcup.json" target="_blank" rel="noopener">openfootball/worldcup.json</a></p>
+    </footer>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
