@@ -14,11 +14,19 @@
 
     <header class="site-header">
       <div class="header-inner">
-        <div class="header-badge">FIFA</div>
+        <a href="/" class="header-badge-link" aria-label="Go to homepage">
+          <div class="header-badge">
+            <img src="./src/assets/header_logo.png" alt="AK Icon">
+          </div>
+        </a>
+        
         <div class="header-text">
-          <h1>World Cup 2026</h1>
-          <p>Live standings &amp; match results</p>
+          <h1>World Cup 2026 Tracker</h1>
+          <p style="color: var(--gold); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+            Unofficial Live Standings &amp; Results
+          </p>
         </div>
+        
         <div class="header-host">
           <span>🇺🇸</span><span>🇨🇦</span><span>🇲🇽</span>
           <small>USA · CAN · MEX</small>
@@ -35,15 +43,18 @@
         </button>
 
         <nav class="tab-nav" id="sliding-nav-menu" role="tablist" aria-label="Dashboard sections">
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-today" id="tab-today" data-tab="today">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-today" id="tab-today" data-tab="today">
             <span class="tab-icon">▶</span> Today &amp; Tomorrow
           </button>
-          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-standings" id="tab-standings" data-tab="standings">
+          
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-standings" id="tab-standings" data-tab="standings">
             <span class="tab-icon">▶</span> Group Standings
           </button>
+          
           <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-matches" id="tab-matches" data-tab="matches">
             <span class="tab-icon">▶</span> Matches
           </button>
+          
           <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-knockout" id="tab-knockout" data-tab="knockout">
             <span class="tab-icon">▶</span> Knockout
           </button>
@@ -88,9 +99,9 @@
       </div>
 
     </main>
-
-    <footer class="site-footer">
-     <p>&copy; 2026 <span class="footer-author">Andreas</span> • All Rights Reserved • Data sourced from <a href="https://github.com/openfootball" target="_blank" rel="noopener">openfootball</a></p>
+     <footer class="site-footer">
+      <p><span class="footer-author">Disclaimer:</span> This application is an independent fan-made project and is not affiliated with or endorsed by any official tournament organizers or football associations.</p>
+      <p><span class="footer-author">AK - 2026</span> • All Data sourced from <a href="https://github.com/openfootball" target="_blank" rel="noopener">openfootball</a></p>
     </footer>
 
     <script type="module" src="./src/main.js"></script>

@@ -1,5 +1,4 @@
 const TEAM_FLAGS = {
-  // North America
   "United States": "🇺🇸", "USA": "🇺🇸",
   "Mexico": "🇲🇽", "MEX": "🇲🇽",
   "Canada": "🇨🇦", "CAN": "🇨🇦",
@@ -8,7 +7,6 @@ const TEAM_FLAGS = {
   "Jamaica": "🇯🇲", "JAM": "🇯🇲",
   "Honduras": "🇭🇳", "HON": "🇭🇳",
 
-  // South America
   "Argentina": "🇦🇷", "ARG": "🇦🇷",
   "Brazil": "🇧🇷", "BRA": "🇧🇷",
   "Uruguay": "🇺🇾", "URU": "🇺🇾",
@@ -16,12 +14,10 @@ const TEAM_FLAGS = {
   "Ecuador": "🇪🇨", "ECU": "🇪🇨",
   "Chile": "🇨🇱", "CHI": "🇨🇱",
 
-  // North & South America / Caribbean
   "Haiti": "🇭🇹", "HAI": "🇺🇸",
   "Paraguay": "🇵🇾", "PAR": "🇵🇾",
   "Curaçao": "🇨🇼", "CUW": "🇨🇼",
 
-  // Europe
   "France": "🇫🇷", "FRA": "🇫🇷",
   "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
   "Spain": "🇪🇸", "ESP": "🇪🇸",
@@ -40,7 +36,6 @@ const TEAM_FLAGS = {
   "Norway": "🇳🇴", "NOR": "🇳🇴",
   "Austria": "🇦🇹", "AUT": "🇦🇹",
 
-  // Africa
   "Morocco": "🇲🇦", "MAR": "🇲🇦",
   "Senegal": "🇸🇳", "SEN": "🇸🇳",
   "Tunisia": "🇹🇳", "TUN": "🇹🇳",
@@ -53,7 +48,6 @@ const TEAM_FLAGS = {
   "Cape Verde": "🇨🇻", "CPV": "🇨🇻",
   "DR Congo": "🇨🇩", "COD": "🇨🇩",
 
-  // Asia / Oceania
   "Japan": "🇯🇵", "JPN": "🇯🇵",
   "South Korea": "🇰🇷", "KOR": "🇰🇷",
   "Australia": "🇦🇺", "AUS": "🇦🇺",
@@ -83,7 +77,6 @@ function initTabs() {
   const menuBtn    = document.getElementById("menu-toggle-btn");
   const slidingNav = document.getElementById("sliding-nav-menu");
 
-  // Toggle mobile drawer visibility
   if (menuBtn && slidingNav) {
     menuBtn.addEventListener("click", () => {
       const isExpanded = menuBtn.getAttribute("aria-expanded") === "true";
@@ -112,16 +105,27 @@ function initTabs() {
       }
     });
   });
+
+  const activeTab = document.querySelector(".tab-btn.active");
+  if (activeTab) {
+    const defaultTarget = activeTab.dataset.tab;
+    panels.forEach(p => {
+      if (p.id === `panel-${defaultTarget}`) {
+        p.classList.add("active");
+        p.hidden = false;
+      } else {
+        p.classList.remove("active");
+        p.hidden = true;
+      }
+    });
+  }
 }
 
-// Quick helper helper function to parse strings smoothly
 function getFlag(teamName) {
   if (!teamName || teamName === "TBD") return "🏳️";
-  // Cleans strings like "W74" or team codes safely
   return TEAM_FLAGS[teamName] || "🏳️";
 }
 
-// ─── Data Fetching ────────────────────────────────────────
 async function initApp() {
   initTabs();
 
@@ -149,7 +153,6 @@ async function initApp() {
   }
 }
 
-// ─── Render Matches Tab ───────────────────────────────────
 function renderMatches(matches) {
   const container   = document.getElementById("matches-list");
   const filterWrap  = document.getElementById("matches-filter");
@@ -158,7 +161,6 @@ function renderMatches(matches) {
   container.innerHTML = "";
 
   const groups = [...new Set(matches.map(m => m.group).filter(Boolean))];
-  // Ensure we don't infinitely append options if initApp runs multiple times
   groupSelect.innerHTML = '<option value="all">All matches</option>';
   
   groups.forEach(g => {
@@ -199,14 +201,11 @@ function renderMatches(matches) {
       const scoreHome  = played ? match.score.ft[0] : "–";
       const scoreAway  = played ? match.score.ft[1] : "–";
       
-      // Combine date & time smoothly
       const rawDateTimeStr = `${match.date} ${match.time || ""}`.trim();
       let indonesiaTimeStr = "Time TBD";
 
       if (match.date && match.time) {
         try {
-          // Openfootball strings look like "2026-06-28 12:00 UTC-7"
-          // JavaScript can parse this natively if we clean up space formatting
           const normalizedIso = rawDateTimeStr.replace("UTC", "GMT");
           const matchDateObj = new Date(normalizedIso);
 
@@ -264,17 +263,14 @@ function renderMatches(matches) {
   groupSelect.addEventListener("change", () => buildList(groupSelect.value));
 }
 
-// ─── Render Today & Tomorrow Tab ──────────────────────────
 function renderTodayAndTomorrow(matches) {
   const container = document.getElementById("today-matches-list");
   container.innerHTML = "";
 
-  // 1. Get accurate current dates relative to local time
   const todayObj = new Date();
   const tomorrowObj = new Date();
   tomorrowObj.setDate(todayObj.getDate() + 1);
 
-  // Format matches to YYYY-MM-DD strings for comparison
   const formatDateString = (dateObj) => {
     const yyyy = dateObj.getFullYear();
     const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -285,7 +281,6 @@ function renderTodayAndTomorrow(matches) {
   const todayStr = formatDateString(todayObj);
   const tomorrowStr = formatDateString(tomorrowObj);
 
-  // 2. Filter data matching either target string
   const activeFixtures = matches.filter(m => m.date === todayStr || m.date === tomorrowStr);
 
   if (activeFixtures.length === 0) {
@@ -293,13 +288,11 @@ function renderTodayAndTomorrow(matches) {
     return;
   }
 
-  // Sort them chronologically by date then time
   activeFixtures.sort((a, b) => a.date.localeCompare(b.date) || (a.time || "").localeCompare(b.time || ""));
 
   let currentHeadingDate = null;
 
   activeFixtures.forEach(match => {
-    // Generate clean section dividers (e.g., "Today vs Tomorrow")
     let dayLabel = match.date === todayStr ? "Today's Fixtures" : "Tomorrow's Fixtures";
     
     if (dayLabel !== currentHeadingDate) {
@@ -310,7 +303,6 @@ function renderTodayAndTomorrow(matches) {
       currentHeadingDate = dayLabel;
     }
 
-    // Reuse your exact layout renderer math card block
     const played = match.score && match.score.ft;
     const scoreHome = played ? match.score.ft[0] : "–";
     const scoreAway = played ? match.score.ft[1] : "–";
@@ -362,8 +354,6 @@ function renderTodayAndTomorrow(matches) {
   });
 }
 
-
-// ─── Compute Standings ────────────────────────────────────
 function computeStandings(matches) {
   const groups = {};
 
@@ -375,7 +365,7 @@ function computeStandings(matches) {
 
     [match.team1, match.team2].forEach(team => {
       if (team && !groups[gName][team]) {
-        groups[gName][team] = { name: team, P: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 };
+        groups[gName][team] = { name: team, P: 0, W: 0, d: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 };
       }
     });
 
@@ -401,7 +391,6 @@ function computeStandings(matches) {
   return groups;
 }
 
-// ─── Render Standings ─────────────────────────────────────
 function renderStandings(groups) {
   const container = document.getElementById("standings-tables");
   container.innerHTML = "";
@@ -457,12 +446,10 @@ function renderStandings(groups) {
   container.appendChild(grid);
 }
 
-// ─── Render Knockout Bracket Tab ──────────────────────────
 function renderKnockout(matches) {
   const container = document.getElementById("knockout-bracket");
   container.innerHTML = "";
 
-  // Mapping array targets that match openfootball naming variants precisely
   const roundsMapping = {
     "Round of 32": [],
     "Round of 16": [],
@@ -474,7 +461,6 @@ function renderKnockout(matches) {
   matches.forEach(m => {
     if (!m.group && m.round) {
       let rName = m.round;
-      // Normalization check to catch variable spelling structures 
       if (rName === "Final" || rName === "Match for third place") {
         roundsMapping["Final"].push(m);
       } else if (roundsMapping[rName] !== undefined) {
@@ -490,7 +476,6 @@ function renderKnockout(matches) {
     const column = document.createElement("div");
     column.className = "bracket-column";
     
-    // Header label styling matches the layout style in your second image
     column.innerHTML = `<div class="bracket-column-title">${roundName}</div>`;
 
     const roundMatches = roundsMapping[roundName];
@@ -544,7 +529,7 @@ function createBracketBox(t1, t2, date, score) {
     <div class="bracket-node-teams">
       <div class="bracket-node-team-row">
         <span class="bracket-shield">${getFlag(t1)}</span>
-        <span class="bracket-team-txt">${getCountryInitial(t1)}</span>
+        <span class="bracket-team-txt Regel">${getCountryInitial(t1)}</span>
       </div>
       <div class="bracket-node-team-row">
         <span class="bracket-shield">${getFlag(t2)}</span>
