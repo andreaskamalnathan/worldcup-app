@@ -26,18 +26,35 @@
     </header>
 
     <nav class="tab-nav" role="tablist" aria-label="Dashboard sections">
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-today" id="tab-today" data-tab="today">
+        <span class="tab-icon">📅</span>
+        Today & Tomorrow
+      </button>
       <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-standings" id="tab-standings" data-tab="standings">
         <span class="tab-icon">⊞</span>
         Group Standings
       </button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-matches" id="tab-matches" data-tab="matches">
         <span class="tab-icon">▶</span>
-        Match Results
+        Matches
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-knockout" id="tab-knockout" data-tab="knockout">
+        <span class="tab-icon">🌿</span>
+        Knockout
       </button>
     </nav>
 
     <main class="main-content">
-
+      <div id="panel-today" class="tab-panel" role="tabpanel" aria-labelledby="tab-today" hidden>
+        <div id="today-matches-list" class="matches-timeline">
+          <div class="skeleton-pulse">Calculating today's fixtures…</div>
+        </div>
+      </div>
+      <div id="panel-knockout" class="tab-panel" role="tabpanel" aria-labelledby="tab-knockout" hidden>
+        <div id="knockout-bracket" class="loading">
+          <div class="skeleton-pulse">Loading knockout bracket…</div>
+        </div>
+      </div>
       <div id="panel-standings" class="tab-panel active" role="tabpanel" aria-labelledby="tab-standings">
         <div id="standings-tables" class="loading">
           <div class="skeleton-pulse">Loading standings…</div>

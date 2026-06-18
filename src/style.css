@@ -449,3 +449,156 @@ body {
   .team-name { font-size: 0.88rem; }
   .score-box { width: 38px; height: 38px; font-size: 1.3rem; }
 }
+
+/* ─── Match Sub-Date Styling ───────────────────────────── */
+.score-center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.match-time-sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.match-time-indonesia {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gold-dim); /* Gives a premium tint highlight to stand out */
+  margin-top: 2px;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Horizontal Bracket System (Perfect Grid Tree) ─────────────── */
+.bracket-scroller-view {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 1rem;
+  scroll-behavior: smooth;
+  background: var(--surface);
+}
+
+.bracket-column {
+  display: grid;
+  /* Creates separate row tracks to handle perfect vertical grid alignment */
+  grid-template-rows: repeat(32, minmax(20px, auto)); 
+  gap: 0;
+  min-width: 200px; /* Made columns tighter for phone compatibility */
+  flex-shrink: 0;
+}
+
+.bracket-column-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--navy);
+  text-align: center;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--border); /* Restored the clean underline style */
+  grid-row: 1; /* Locks title to the top row */
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 5;
+}
+
+.bracket-match-node {
+  background: var(--navy-mid);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.85rem; /* Made padding more compact for mobile views */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(10, 22, 40, 0.12);
+  align-self: center; /* Forces the box to align directly in the vertical middle */
+}
+
+/* --- Perfect Grid Centering Assignment Logic (With Upward Start Shifts) --- */
+
+/* Column 1 (Round of 32): Starts immediately on Row 2, spans 2 grid blocks per card */
+.bracket-column:nth-child(1) .bracket-match-node { 
+  grid-row: span 2; 
+  margin: 0.25rem 0; 
+}
+
+/* Column 2 (Round of 16): Shifts UP to start exactly on Row 2, spans 4 blocks */
+.bracket-column:nth-child(2) .bracket-match-node { 
+  grid-row: span 4; 
+}
+.bracket-column:nth-child(2) .bracket-match-node:first-of-type { 
+  grid-row-start: 2; 
+}
+
+/* Column 3 (Quarter-finals): Shifts UP to start exactly on Row 3, spans 8 blocks */
+.bracket-column:nth-child(3) .bracket-match-node { 
+  grid-row: span 8; 
+}
+.bracket-column:nth-child(3) .bracket-match-node:first-of-type { 
+  grid-row-start: 3; 
+}
+
+/* Column 4 (Semi-finals): Shifts UP to start exactly on Row 5, spans 16 blocks */
+.bracket-column:nth-child(4) .bracket-match-node { 
+  grid-row: span 16; 
+}
+.bracket-column:nth-child(4) .bracket-match-node:first-of-type { 
+  grid-row-start: 5; 
+}
+
+/* Column 5 (Final): Shifts UP to start exactly on Row 9, spans 32 blocks */
+.bracket-column:nth-child(5) .bracket-match-node { 
+  grid-row: span 32; 
+}
+.bracket-column:nth-child(5) .bracket-match-node:first-of-type { 
+  grid-row-start: 9; 
+}
+
+.bracket-node-meta {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 500;
+}
+
+.bracket-node-teams {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bracket-node-team-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bracket-shield {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.bracket-team-txt {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem; /* Smaller text size for phone screens */
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.bracket-node-score {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 4px;
+  text-align: right;
+}
