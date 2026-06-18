@@ -685,7 +685,48 @@ body {
 }
 
 @media (max-width: 540px) {
-  .header-host { display: none; }
+  .header-inner {
+    padding: 0.9rem 0.75rem;
+    gap: 0.7rem;
+  }
+  .header-badge {
+    width: 68px;
+    height: 68px;
+  }
+  .header-text {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .header-text h1 {
+    font-size: 0.98rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .header-text p {
+    font-size: 0.62rem;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .header-host {
+    gap: 0.45rem;
+    padding-left: 0.55rem;
+  }
+  .host-pill {
+    padding: 0.18rem 0.35rem;
+  }
+  .host-flag {
+    font-size: 0.95rem;
+  }
+  .host-name {
+    font-size: 0.68rem;
+  }
+  /*.header-host { display: none; }*/
   .tab-btn { padding: 0.85rem 1rem; font-size: 0.85rem; }
   .standings-grid { grid-template-columns: 1fr; }
   .team-name { font-size: 0.85rem; }
