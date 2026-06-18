@@ -68,7 +68,15 @@ const TEAM_FLAGS = {
 
 const RAW_URL = "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
 
-// ─── Tab System ───────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  const apkButtonContainer = document.getElementById("apk-download-container");
+  if (window.Capacitor && window.Capacitor.getPlatform() === 'android') {
+    if (apkButtonContainer) {
+      apkButtonContainer.style.display = "none";
+    }
+  }
+});
+
 function initTabs() {
   const buttons    = document.querySelectorAll(".tab-btn");
   const panels     = document.querySelectorAll(".tab-panel");
