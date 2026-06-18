@@ -365,7 +365,7 @@ function computeStandings(matches) {
 
     [match.team1, match.team2].forEach(team => {
       if (team && !groups[gName][team]) {
-        groups[gName][team] = { name: team, P: 0, W: 0, d: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 };
+        groups[gName][team] = { name: team, P: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 };
       }
     });
 
@@ -381,7 +381,7 @@ function computeStandings(matches) {
 
       if (s1 > s2)      { t1.W += 1; t2.L += 1; t1.Pts += 3; }
       else if (s2 > s1) { t2.W += 1; t1.L += 1; t2.Pts += 3; }
-      else              { t1.D += 1; t2.D += 1; t1.Pts += 1; t2.Pts += 1; }
+      else              { t1.D += 1; t2.D += 1; t1.Pts += 1; t2.Pts += 1; } 
     }
   });
 
