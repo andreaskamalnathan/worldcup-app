@@ -1,4 +1,4 @@
-/* ─── Tokens ─────────────────────────────────────────────── */
+/* ─── Tokens ─── */
 :root {
   --navy:       #0A1628;
   --navy-mid:   #142240;
@@ -15,7 +15,7 @@
   --radius-lg:  16px;
 }
 
-/* ─── Reset & Base ───────────────────────────────────────── */
+/* ─── Reset & Base ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -27,7 +27,7 @@ body {
   flex-direction: column;
 }
 
-/* ─── Header ─────────────────────────────────────────────── */
+/* ─── Header ─── */
 .site-header {
   background: var(--navy);
   color: #fff;
@@ -96,7 +96,7 @@ body {
   text-transform: uppercase;
 }
 
-/* ─── Tab Navigation ─────────────────────────────────────── */
+/* ─── Tab Navigation ─── */
 .tab-nav {
   background: var(--navy-mid);
   display: flex;
@@ -124,7 +124,9 @@ body {
 
 .tab-btn .tab-icon {
   font-size: 1rem;
-  opacity: 0.7;
+  color: var(--gold);
+  opacity: 0.85;
+  transition: opacity 0.18s;
 }
 
 .tab-btn:hover {
@@ -140,19 +142,116 @@ body {
   opacity: 1;
 }
 
-/* ─── Main Content ───────────────────────────────────────── */
+/* ─── Responsive Navigation Menu Layout Rules ──── */
+.nav-container-wrapper {
+  position: relative;
+  background: var(--navy-mid);
+  width: 100%;
+}
+
+/* Hide Hamburger Toggle Button on Standard Wide Desktop Monitors */
+.hamburger-menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 1rem 1.25rem;
+  z-index: 10;
+}
+
+/* ─── Smaller Responsive Window Media ───── */
+.hamburger-bar {
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: all 0.25s ease-in-out;
+}
+@media (max-width: 680px) {
+  .hamburger-menu-btn {
+    display: flex !important;
+  }
+  .tab-nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+    z-index: 100;
+  }
+  .tab-nav.open-drawer {
+    display: flex !important;
+  }
+  .bracket-scroller-view {
+    gap: 0.75rem !important;
+    padding: 0.5rem 0 !important;
+  }
+  .bracket-column {
+    min-width: 110px !important;
+    grid-template-rows: 45px repeat(32, minmax(15px, auto)) !important;
+    border-right: 1px solid rgba(10, 22, 40, 0.06) !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .bracket-match-node {
+    padding: 0.4rem 0.5rem !important;
+    border-radius: var(--radius);
+  }
+
+  .bracket-team-txt {
+    font-size: 0.8rem !important;
+  }
+
+  .tab-btn {
+    width: 100%;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-left: 3px solid transparent;
+  }
+  .tab-btn.active {
+    border-bottom-color: rgba(255,255,255,0.04);
+    border-left-color: var(--gold); /* Switches the select line highlight indicator to the left edge */
+    background: rgba(255,255,255,0.02);
+  }
+  .menu-active .hamburger-bar:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+  .menu-active .hamburger-bar:nth-child(2) { opacity: 0; }
+  .menu-active .hamburger-bar:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+  .group-table th:nth-child(1) { width: 50%; }
+  .team-cell {
+    font-size: 0.8rem !important;
+  }
+  .group-table th:nth-child(1),
+  .group-table td:nth-child(1) { 
+    width: 45% !important;
+  }
+  .team-cell {
+    font-size: 0.78rem !important;
+    gap: 0.35rem !important;
+  }
+}
+
+/* ─── Main Content -── */
 .main-content {
   flex: 1;
-  max-width: 1100px;
+  max-width: 1200px; /* Increased slightly to let 3 columns fit side-by-side on desktop */
   width: 100%;
   margin: 0 auto;
-  padding: 1.75rem 1.25rem 3rem;
+  padding: 1.5rem 1rem 3rem;
 }
 
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-/* ─── Loading / Skeleton ─────────────────────────────────── */
+/* ─── Loading / Skeleton ─── */
 .skeleton-pulse {
   font-style: italic;
   color: var(--muted);
@@ -166,18 +265,25 @@ body {
   50% { opacity: 0.45; }
 }
 
-/* ─── Standings Grid ─────────────────────────────────────── */
+/* ─── Standings Grid ──── */
 .standings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+  max-width: 100%;
 }
 
 .group-card {
   background: var(--card);
-  border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  overflow: hidden;
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  min-width: 0; 
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .group-card-header {
@@ -204,15 +310,27 @@ body {
   text-transform: uppercase;
 }
 
+/* --- Table Structure Fixed Layout --- */
 .group-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed; /* CRITICAL: Forces columns to strictly obey set widths instead of shifting based on word lengths */
 }
 
 .group-table thead tr {
   background: #F8FAFC;
   border-bottom: 1px solid var(--border);
 }
+
+/* Explicit width distributions so numbers stay perfectly centered and names have plenty of room */
+.group-table th:nth-child(1),
+.group-table td:nth-child(1) { width: 44%; text-align: left; } /* Team column */
+.group-table th:nth-child(2), .group-table td:nth-child(2) { width: 9%; text-align: center; }  /* P */
+.group-table th:nth-child(3), .group-table td:nth-child(3) { width: 9%; text-align: center; }  /* W */
+.group-table th:nth-child(4), .group-table td:nth-child(4) { width: 9%; text-align: center; }  /* D */
+.group-table th:nth-child(5), .group-table td:nth-child(5) { width: 9%; text-align: center; }  /* L */
+.group-table th:nth-child(6), .group-table td:nth-child(6) { width: 11%; text-align: center; } /* GD */
+.group-table th:nth-child(7), .group-table td:nth-child(7) { width: 9%; text-align: center; }  /* Pts */
 
 .group-table th {
   font-family: 'Inter', sans-serif;
@@ -221,22 +339,19 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
-  padding: 0.5rem 0.75rem;
-  text-align: left;
+  padding: 0.5rem 0.25rem;
 }
 
-.group-table th:not(:first-child) { text-align: center; }
-
 .group-table td {
-  padding: 0.6rem 0.75rem;
+  padding: 0.6rem 0.25rem;
   font-size: 0.85rem;
   border-bottom: 1px solid var(--border);
+  vertical-align: middle;
 }
 
 .group-table tbody tr:last-child td { border-bottom: none; }
 
 .group-table td:not(:first-child) {
-  text-align: center;
   color: var(--muted);
 }
 
@@ -256,7 +371,7 @@ body {
   border-radius: 50%;
   font-size: 0.7rem;
   font-weight: 600;
-  margin-right: 6px;
+  margin-right: 4px;
   background: var(--surface);
   color: var(--muted);
   flex-shrink: 0;
@@ -275,13 +390,18 @@ body {
 .team-cell {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  white-space: normal;      /* Allows wrapping for 2+ words cleanly */
+  word-break: break-word;   /* Breaks long words safely without breaking container edges */
+  line-height: 1.2;
 }
 
 .gd-positive { color: #16a34a; font-weight: 500; }
 .gd-negative { color: #dc2626; font-weight: 500; }
 .gd-zero { color: var(--muted); }
 
-/* ─── Matches Filter ─────────────────────────────────────── */
+/* ─── Matches Filter ─── */
 .matches-filter {
   margin-bottom: 1.25rem;
   display: flex;
@@ -314,7 +434,7 @@ body {
   padding-right: 2rem;
 }
 
-/* ─── Match Timeline ─────────────────────────────────────── */
+/* ─── Match Timeline ─── */
 .matches-timeline { display: flex; flex-direction: column; gap: 0.75rem; }
 
 .match-group-label {
@@ -378,16 +498,23 @@ body {
   gap: 4px;
 }
 
-.team-block.home { align-items: flex-start; }
-.team-block.away { align-items: flex-end; }
-
-.team-name {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--navy);
-  letter-spacing: 0.02em;
+.team-block.home { 
+  align-items: flex-start; 
+  text-align: left;
 }
+
+.team-block.away { 
+  align-items: flex-end; 
+  text-align: right;
+}
+.team-block .team-name {
+  width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.team-name { font-size: 0.88rem; }
 
 .team-label {
   font-size: 0.65rem;
@@ -430,7 +557,7 @@ body {
   color: var(--muted);
 }
 
-/* ─── Footer ─────────────────────────────────────────────── */
+/* ─── Footer ──── */
 .site-footer {
   text-align: center;
   padding: 1.25rem;
@@ -441,16 +568,17 @@ body {
 
 .site-footer a { color: var(--navy); }
 
-/* ─── Responsive ─────────────────────────────────────────── */
+/* ─── Responsive ──── */
 @media (max-width: 540px) {
   .header-host { display: none; }
   .tab-btn { padding: 0.85rem 1rem; font-size: 0.85rem; }
   .standings-grid { grid-template-columns: 1fr; }
-  .team-name { font-size: 0.88rem; }
+  .team-name { font-size: 0.85rem; }
+  .team-block.away .team-name {text-align: right !important;}
   .score-box { width: 38px; height: 38px; font-size: 1.3rem; }
 }
 
-/* ─── Match Sub-Date Styling ───────────────────────────── */
+/* ─── Match Sub-Date Styling ──── */
 .score-center-wrapper {
   display: flex;
   flex-direction: column;
@@ -472,7 +600,7 @@ body {
   letter-spacing: 0.01em;
 }
 
-/* ─── Horizontal Bracket System (Perfect Grid Tree) ─────────────── */
+/* ─── Horizontal Bracket System (Perfect Grid Tree) ──── */
 .bracket-scroller-view {
   display: flex;
   gap: 1.5rem;
@@ -484,25 +612,27 @@ body {
 
 .bracket-column {
   display: grid;
-  /* Creates separate row tracks to handle perfect vertical grid alignment */
-  grid-template-rows: repeat(32, minmax(20px, auto)); 
+  grid-template-rows: 45px repeat(32, minmax(20px, auto));
   gap: 0;
-  min-width: 200px; /* Made columns tighter for phone compatibility */
+  min-width: 200px;
   flex-shrink: 0;
+  border-right: 1px solid rgba(10, 22, 40, 0.08); 
+  padding-right: 1.5rem;
 }
 
 .bracket-column-title {
-  font-family: 'Oswald', sans-serif;
+font-family: 'Oswald', sans-serif;
   font-weight: 700;
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--navy);
   text-align: center;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid var(--border); /* Restored the clean underline style */
-  grid-row: 1; /* Locks title to the top row */
+  height: 32px; 
+  line-height: 24px;
+  margin-bottom: 0;
+  border-bottom: 2px solid var(--border); 
+  grid-row: 1; 
   position: sticky;
   top: 0;
   background: var(--surface);
@@ -522,44 +652,27 @@ body {
   align-self: center; /* Forces the box to align directly in the vertical middle */
 }
 
-/* --- Perfect Grid Centering Assignment Logic (With Upward Start Shifts) --- */
+.bracket-column:nth-child(1) .bracket-match-node { grid-row: span 2; margin: 0.25rem 0; }
 
-/* Column 1 (Round of 32): Starts immediately on Row 2, spans 2 grid blocks per card */
-.bracket-column:nth-child(1) .bracket-match-node { 
-  grid-row: span 2; 
-  margin: 0.25rem 0; 
-}
+.bracket-column:nth-child(2) .bracket-match-node { grid-row: span 4; }
+.bracket-column:nth-child(2) .bracket-match-node:first-of-type { grid-row-start: 2; }
 
-/* Column 2 (Round of 16): Shifts UP to start exactly on Row 2, spans 4 blocks */
-.bracket-column:nth-child(2) .bracket-match-node { 
-  grid-row: span 4; 
-}
-.bracket-column:nth-child(2) .bracket-match-node:first-of-type { 
-  grid-row-start: 2; 
-}
+.bracket-column:nth-child(3) .bracket-match-node { grid-row: span 8; }
+.bracket-column:nth-child(3) .bracket-match-node:first-of-type { grid-row-start: 3; }
 
-/* Column 3 (Quarter-finals): Shifts UP to start exactly on Row 3, spans 8 blocks */
-.bracket-column:nth-child(3) .bracket-match-node { 
-  grid-row: span 8; 
-}
-.bracket-column:nth-child(3) .bracket-match-node:first-of-type { 
-  grid-row-start: 3; 
-}
+.bracket-column:nth-child(4) .bracket-match-node { grid-row: span 16; }
+.bracket-column:nth-child(4) .bracket-match-node:first-of-type { grid-row-start: 5; }
 
-/* Column 4 (Semi-finals): Shifts UP to start exactly on Row 5, spans 16 blocks */
-.bracket-column:nth-child(4) .bracket-match-node { 
-  grid-row: span 16; 
-}
-.bracket-column:nth-child(4) .bracket-match-node:first-of-type { 
-  grid-row-start: 5; 
-}
+/* Restore and map the Final Column tracks completely */
+.bracket-column:nth-child(5) .bracket-match-node { grid-row: span 32; }
+.bracket-column:nth-child(5) .bracket-match-node:first-of-type { grid-row-start: 9; }
 
-/* Column 5 (Final): Shifts UP to start exactly on Row 9, spans 32 blocks */
-.bracket-column:nth-child(5) .bracket-match-node { 
-  grid-row: span 32; 
+.bracket-column:not(:last-child) {
+  border-right: 1px solid rgba(10, 22, 40, 0.08);
 }
-.bracket-column:nth-child(5) .bracket-match-node:first-of-type { 
-  grid-row-start: 9; 
+.bracket-column:last-child {
+  border-right: none;
+  padding-right: 0;
 }
 
 .bracket-node-meta {

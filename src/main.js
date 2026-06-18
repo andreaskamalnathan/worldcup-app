@@ -70,33 +70,42 @@ const RAW_URL = "https://raw.githubusercontent.com/openfootball/worldcup.json/ma
 
 // ─── Tab System ───────────────────────────────────────────
 function initTabs() {
-  const buttons = document.querySelectorAll(".tab-btn");
-  const panels  = document.querySelectorAll(".tab-panel");
+  const buttons    = document.querySelectorAll(".tab-btn");
+  const panels     = document.querySelectorAll(".tab-panel");
+  const menuBtn    = document.getElementById("menu-toggle-btn");
+  const slidingNav = document.getElementById("sliding-nav-menu");
+
+  // Toggle mobile drawer visibility
+  if (menuBtn && slidingNav) {
+    menuBtn.addEventListener("click", () => {
+      const isExpanded = menuBtn.getAttribute("aria-expanded") === "true";
+      menuBtn.setAttribute("aria-expanded", !isExpanded);
+      slidingNav.classList.toggle("open-drawer");
+      menuBtn.classList.toggle("menu-active");
+    });
+  }
 
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
       const target = btn.dataset.tab;
-
-      buttons.forEach(b => {
-        b.classList.remove("active");
-        b.setAttribute("aria-selected", "false");
-      });
-      panels.forEach(p => {
-        p.classList.remove("active");
-        p.hidden = true;
-      });
-
+      buttons.forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+      panels.forEach(p => { p.classList.remove("active"); p.hidden = true; });
       btn.classList.add("active");
       btn.setAttribute("aria-selected", "true");
-
       const panel = document.getElementById(`panel-${target}`);
       if (panel) {
         panel.classList.add("active");
         panel.hidden = false;
       }
+      if (slidingNav && slidingNav.classList.contains("open-drawer")) {
+        slidingNav.classList.remove("open-drawer");
+        menuBtn.classList.remove("menu-active");
+        menuBtn.setAttribute("aria-expanded", "false");
+      }
     });
   });
 }
+
 // Quick helper helper function to parse strings smoothly
 function getFlag(teamName) {
   if (!teamName || teamName === "TBD") return "🏳️";
@@ -497,6 +506,28 @@ function renderKnockout(matches) {
   container.appendChild(bracketWrapper);
 }
 
+function getCountryInitial(teamName) {
+  if (!teamName || teamName === "TBD") return "TBD";
+  
+  if (teamName.length <= 5) return teamName;
+
+  const initialMap = {
+    "United States": "USA", "Mexico": "MEX", "Canada": "CAN", "Panama": "PAN",
+    "Costa Rica": "CRC", "Jamaica": "JAM", "Honduras": "HON", "Argentina": "ARG",
+    "Brazil": "BRA", "Uruguay": "URU", "Colombia": "COL", "Ecuador": "ECU",
+    "Chile": "CHI", "France": "FRA", "England": "ENG", "Spain": "ESP",
+    "Germany": "GER", "Italy": "ITALY", "Portugal": "POR", "Netherlands": "NED",
+    "Belgium": "BEL", "Croatia": "CRO", "Morocco": "MAR", "Senegal": "SEN",
+    "Japan": "JPN", "South Korea": "KOR", "Australia": "AUS", "Saudi Arabia": "KSA",
+    "South Africa": "RSA", "Czech Republic": "CZE", "Bosnia & Herzegovina": "BIH",
+    "Switzerland": "SUI", "Scotland": "SCO", "Haiti": "HAI", "Paraguay": "PAR",
+    "Turkey": "TUR", "Curaçao": "CUW", "Ivory Coast": "CIV", "Sweden": "SWE",
+    "Egypt": "EGY", "Cape Verde": "CPV", "DR Congo": "COD", "Uzbekistan": "UZB"
+  };
+
+  return initialMap[teamName] || teamName.slice(0, 3).toUpperCase();
+}
+
 function createBracketBox(t1, t2, date, score) {
   const box = document.createElement("div");
   box.className = "bracket-match-node";
@@ -505,11 +536,11 @@ function createBracketBox(t1, t2, date, score) {
     <div class="bracket-node-teams">
       <div class="bracket-node-team-row">
         <span class="bracket-shield">${getFlag(t1)}</span>
-        <span class="bracket-team-txt">${t1}</span>
+        <span class="bracket-team-txt">${getCountryInitial(t1)}</span>
       </div>
       <div class="bracket-node-team-row">
         <span class="bracket-shield">${getFlag(t2)}</span>
-        <span class="bracket-team-txt">${t2}</span>
+        <span class="bracket-team-txt">${getCountryInitial(t2)}</span>
       </div>
     </div>
     ${score ? `<div class="bracket-node-score">${score}</div>` : ""}
