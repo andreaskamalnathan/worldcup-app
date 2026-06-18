@@ -1,5 +1,6 @@
 {
   "appId": "com.andreaskamalnathan.worldcupapp",
-  "appName": "World Cup 2026",
+  "appName": "World Cup 2026 Tracker (Unofficial)",
+  "appVersion": "1.0.0",
   "webDir": "dist"
 }
